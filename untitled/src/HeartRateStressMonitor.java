@@ -71,7 +71,7 @@ public static double averageReading(int[] array){
         for(int i = 0; i < arr.length; i++) {
             total += array[i];
         }
-    return double total / array.length;
+    return (double) total / array.length;
 
 }
 
@@ -90,9 +90,15 @@ public static double averageReading(int[] array){
     public static String overallClassification(String[] array) {
 
         int calm = 0, moderate = 0, stressed = 0;
-
-        
-
+        for (int i = 0; i < array.length; i++) {
+            String classify = array[i];
+            if (classify.equals("Calm")) calm++;
+            else if (classify.equals("Moderate")) moderate++;
+            else if (classify.equals("Stressed!")) stressed++;
+        }
+        if (stressed >= calm && stressed >= focused) return "Stressed!";
+        if (focused >= calm && focused >= stressed) return "Focused";
+        return "Calm";
     }
 
 
