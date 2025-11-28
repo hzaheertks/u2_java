@@ -75,7 +75,25 @@ public static double averageReading(int[] array){
 
 }
 
+    public static String classifyReading(int heartrate){
+        if (heartrate <= 75) {
+            return "Calm";
+        }
+        else if (heartrate <= 85) {
+            return "Moderate";
+        }
+        else {
+            return "Stressed!";
+        }
+    }
 
+    public static String overallClassification(String[] array) {
+
+        int calm = 0, moderate = 0, stressed = 0;
+
+        
+
+    }
 
 
 }
