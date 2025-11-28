@@ -19,7 +19,7 @@ public class HeartRateStressMonitor {
         if (decision == 1) {
             System.out.println("\nMany students’ mental health and stress levels are translated in variability and spikes in their heart rate, \nit is important that we identify these spikes so we know when to manage stress! \nLet's begin, " + name );
             System.out.println("------------------------------------------");
-            System.out.println("Begin by entering your average BPM below, every 2 hours for one day: "); //in this program, user input will really come from the CSV file, this line is just to mimic what would have been said to user
+            System.out.println("Begin by entering your average bpm below, every 2 hours for one day: "); //in this program, user input will really come from the CSV file, this line is just to mimic what would have been said to user
             System.out.println("------------------------------------------"); //marybe try turning into a method for efficiency?
 
             String filename = "Heart rate (BPM) vs. time of day (hrs).csv";
@@ -52,7 +52,22 @@ public class HeartRateStressMonitor {
         }
 
         System.out.println("Heart rate classificaitons: ");
+        String[] classification = new String[readings.size()];
+        for (int i = 0; i < readings.size(); i++) {
+            classification[i] = classifyReading(hrArray[i]); //calling method classifyReading
+            System.out.println("Reading:  " + hrArray[i] + "bpm \n   Classification: " + classification[i]);
+        }
+
+        double average = averageReading(hrArray);
+        System.out.println("Average heart rate of day: " +average + "bpm");
+
+        String overall = overallClassification(classification);
+        System.out.println("Overall State: " + overall);
+
         
+
+
+
 
 
     }
