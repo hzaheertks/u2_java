@@ -17,18 +17,22 @@ public class HeartRateStressMonitor {
 
 
         if (decision == 1) {
-            System.out.println("\n Many students’ mental health and stress levels are translated in variability and spikes in their heart rate, \n it is important that we identify these spikes so we know when to manage stress! \n  Let's begin, " + name );
+            System.out.println("\nMany students’ mental health and stress levels are translated in variability and spikes in their heart rate, \nit is important that we identify these spikes so we know when to manage stress! \nLet's begin, " + name );
             System.out.println("------------------------------------------");
             System.out.println("Begin by entering your average BPM below, every 2 hours for one day: "); //in this program, user input will really come from the CSV file, this line is just to mimic what would have been said to user
-            System.out.println("------------------------------------------");
+            System.out.println("------------------------------------------"); //marybe try turning into a method for efficiency?
 
             String filename = "Heart rate (BPM) vs. time of day (hrs).csv";
             ArrayList<Integer> readings = new ArrayList<>();
 
-            try (BufferedReader br = new BufferedReader(new FileReader("Heart rate (BPM) vs. time of day (hrs).csv"))) {
+            try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line;
                 while ((line = br.readLine()) != null) {
-                    System.out.println(line);
+                    String[] parts = line.split(",");
+                    if (line.toLowerCase().contains("heart")) continue;
+                    if (line.toLowerCase().contains("time")) continue;
+                    int heartRate = Integer.parseInt(parts[1].trim());
+                    readings.add(heartRate);
                 }
             } catch (IOException e) {
                 System.err.println("Error: " + e.getMessage());
