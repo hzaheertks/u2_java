@@ -46,6 +46,15 @@ public class HeartRateStressMonitor {
             System.out.println("Invalid input! Please restart!");
         }
 
+        int[] hrArray = new int[readings.size()];
+        for (int i = 0; i < readings.size(); i++) {
+            hrArray[i] = readings.get(i);
+        }
+
+        System.out.println("Heart rate classificaitons: ");
+        
+
+
     }
 
 //time=line.substring(0,2(
