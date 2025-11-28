@@ -64,15 +64,18 @@ public class HeartRateStressMonitor {
         String overall = overallClassification(classification);
         System.out.println("Overall State: " + overall);
 
-        
-
-
-
-
-
     }
 
-//time=line.substring(0,2(
-    //.indexOf string method
+public static double averageReading(int[] array){
+        int total = 0;
+        for(int i = 0; i < arr.length; i++) {
+            total += array[i];
+        }
+    return double total / array.length;
+
+}
+
+
+
 
 }
