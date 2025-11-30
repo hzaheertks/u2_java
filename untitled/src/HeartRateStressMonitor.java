@@ -21,7 +21,9 @@ public class HeartRateStressMonitor {
 
         System.out.println("Would you like to begin (1) or quit (2) the program, " + name +"?");
         int decision = scanner.nextInt();
+        scanner.nextLine();
 
+        ArrayList<String> times = new ArrayList<>();
         ArrayList<Integer> readings = new ArrayList<>();
 
         if (decision == 1) {
@@ -36,6 +38,7 @@ public class HeartRateStressMonitor {
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    if (line.trim().isEmpty() || line.startsWith("Time")) continue;
                     String[] parts = line.split(",");
                     times.add(parts[0].trim());
                     readings.add(Integer.parseInt(parts[1].trim()));
@@ -58,10 +61,20 @@ public class HeartRateStressMonitor {
             hrArray[i] = readings.get(i);
         }
 
-        System.out.println("Heart rate classificaitons: ");
+        String[] timeArray = new String[times.size()];
+        for (int i = 0; i < times.size(); i++) {
+            timeArray[i] = times.get(i);
+        }
+
+        ArrayList<Integer> spikes = new ArrayList<>();
         String[] classification = new String[readings.size()];
+
+        System.out.println("Heart rate classificaitons: ");
         for (int i = 0; i < readings.size(); i++) {
             classification[i] = classifyReading(hrArray[i]); //calling method classifyReading
+            if (i > 0 && Math.abs(hrArray[i] - hrArray[i - 1]) > 15) {
+                spikes.add(i);
+            }
             System.out.println("Reading:  " + hrArray[i] + "bpm \n   Classification: " + classification[i]);
             if (spikes.contains(i)) System.out.print(" (Spike!)");
             System.out.println();
@@ -70,6 +83,8 @@ public class HeartRateStressMonitor {
 
         double average = averageReading(hrArray);
         System.out.println("Average heart rate of day: " +average + "bpm");
+
+        summarizeByPeriod(timeArray, hrArray);
 
         String overall = overallClassification(classification);
         System.out.println("Overall State: " + overall);
@@ -97,6 +112,24 @@ public static double averageReading(int[] array){
         }
     }
 
+    public static void summarizeByPeriod(String[] times, int[] hrArray) {
+        int morningTotal = 0, morningCount = 0;
+        int afternoonTotal = 0, afternoonCount = 0;
+        int eveningTotal = 0, eveningCount = 0;
+
+        for (int i = 0; i < hrArray.length; i++) {
+            int hour = Integer.parseInt(times[i].split(":")[0]);
+            if (hour >= 6 && hour < 12) { morningTotal += hrArray[i]; morningCount++; }
+            else if (hour >= 12 && hour < 18) { afternoonTotal += hrArray[i]; afternoonCount++; }
+            else { eveningTotal += hrArray[i]; eveningCount++; }
+        }
+
+        System.out.println("\nAverage Heart Rate by Period:");
+        if (morningCount > 0) System.out.println("Morning: " + (morningTotal / morningCount) + " bpm");
+        if (afternoonCount > 0) System.out.println("Afternoon: " + (afternoonTotal / afternoonCount) + " bpm");
+        if (eveningCount > 0) System.out.println("Evening: " + (eveningTotal / eveningCount) + " bpm");
+    }
+
     public static String overallClassification(String[] array) {
 
         int calm = 0, moderate = 0, stressed = 0;
@@ -112,5 +145,9 @@ public static double averageReading(int[] array){
 
     }
 
-
 }
+
+
+
+
+
