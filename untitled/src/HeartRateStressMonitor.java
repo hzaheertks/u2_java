@@ -3,6 +3,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.category.DefaultCategoryDataset;
+import javax.swing.JFrame;
+
+
 
 public class HeartRateStressMonitor {
     public static void main(String[] args) {
@@ -15,6 +22,7 @@ public class HeartRateStressMonitor {
         System.out.println("Would you like to begin (1) or quit (2) the program, " + name +"?");
         int decision = scanner.nextInt();
 
+        ArrayList<Integer> readings = new ArrayList<>();
 
         if (decision == 1) {
             System.out.println("\nMany students’ mental health and stress levels are translated in variability and spikes in their heart rate, \nit is important that we identify these spikes so we know when to manage stress! \nLet's begin, " + name );
@@ -23,7 +31,7 @@ public class HeartRateStressMonitor {
             System.out.println("------------------------------------------"); //marybe try turning into a method for efficiency?
 
             String filename = "Heart rate (BPM) vs. time of day (hrs).csv";
-            ArrayList<Integer> readings = new ArrayList<>();
+
 
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line;
@@ -68,7 +76,7 @@ public class HeartRateStressMonitor {
 
 public static double averageReading(int[] array){
         int total = 0;
-        for(int i = 0; i < arr.length; i++) {
+        for(int i = 0; i < array.length; i++) {
             total += array[i];
         }
     return (double) total / array.length;
@@ -96,9 +104,10 @@ public static double averageReading(int[] array){
             else if (classify.equals("Moderate")) moderate++;
             else if (classify.equals("Stressed!")) stressed++;
         }
-        if (stressed >= calm && stressed >= focused) return "Stressed!";
-        if (focused >= calm && focused >= stressed) return "Focused";
+        if (stressed >= calm && stressed >= moderate) return "Stressed!";
+        if (moderate >= calm && moderate >= stressed) return "Moderate";
         return "Calm";
+
     }
 
 
