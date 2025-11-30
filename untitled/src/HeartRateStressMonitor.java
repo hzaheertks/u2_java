@@ -38,6 +38,7 @@ public class HeartRateStressMonitor {
             try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
                 String line;
                 while ((line = br.readLine()) != null) {
+                    System.out.println(line);
                     if (line.trim().isEmpty() || line.startsWith("Time")) continue;
                     String[] parts = line.split(",");
                     times.add(parts[0].trim());
@@ -82,7 +83,8 @@ public class HeartRateStressMonitor {
 
 
         double average = averageReading(hrArray);
-        System.out.println("Average heart rate of day: " +average + "bpm");
+        long roundedAverage = Math.round(average);
+        System.out.println("Average heart rate of day: " +roundedAverage + "bpm");
 
         summarizeByPeriod(timeArray, hrArray);
 
