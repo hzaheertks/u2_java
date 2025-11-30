@@ -3,11 +3,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.DefaultCategoryDataset;
-import javax.swing.JFrame;
+//import org.jfree.chart.ChartFactory;
+//import org.jfree.chart.ChartPanel;
+//import org.jfree.chart.JFreeChart;
+//import org.jfree.data.category.DefaultCategoryDataset;
+//import javax.swing.JFrame;
 
 
 
@@ -37,10 +37,9 @@ public class HeartRateStressMonitor {
                 String line;
                 while ((line = br.readLine()) != null) {
                     String[] parts = line.split(",");
-                    if (line.toLowerCase().contains("heart")) continue;
-                    if (line.toLowerCase().contains("time")) continue;
-                    int heartRate = Integer.parseInt(parts[1].trim());
-                    readings.add(heartRate);
+                    times.add(parts[0].trim());
+                    readings.add(Integer.parseInt(parts[1].trim()));
+
                 }
             } catch (IOException e) {
                 System.err.println("Error: " + e.getMessage());
@@ -60,11 +59,13 @@ public class HeartRateStressMonitor {
         }
 
         System.out.println("Heart rate classificaitons: ");
-        String[] classification = new String[readings.size()];
-        for (int i = 0; i < readings.size(); i++) {
-            classification[i] = classifyReading(hrArray[i]); //calling method classifyReading
-            System.out.println("Reading:  " + hrArray[i] + "bpm \n   Classification: " + classification[i]);
+        for (int i = 0; i < hrArray.length; i++) {
+            classifications[i] = classifyReading(hrArray[i]);
+            if (i > 0 && Math.abs(hrArray[i] - hrArray[i - 1]) > 15) {
+                spikes.add(i);
+            }
         }
+
 
         double average = averageReading(hrArray);
         System.out.println("Average heart rate of day: " +average + "bpm");
