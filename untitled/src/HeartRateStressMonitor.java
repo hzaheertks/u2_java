@@ -59,11 +59,12 @@ public class HeartRateStressMonitor {
         }
 
         System.out.println("Heart rate classificaitons: ");
-        for (int i = 0; i < hrArray.length; i++) {
-            classifications[i] = classifyReading(hrArray[i]);
-            if (i > 0 && Math.abs(hrArray[i] - hrArray[i - 1]) > 15) {
-                spikes.add(i);
-            }
+        String[] classification = new String[readings.size()];
+        for (int i = 0; i < readings.size(); i++) {
+            classification[i] = classifyReading(hrArray[i]); //calling method classifyReading
+            System.out.println("Reading:  " + hrArray[i] + "bpm \n   Classification: " + classification[i]);
+            if (spikes.contains(i)) System.out.print(" (Spike!)");
+            System.out.println();
         }
 
 
